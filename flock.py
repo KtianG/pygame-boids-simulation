@@ -4,6 +4,7 @@ from boid import Boid
 from variables import (
     WIDTH,
     HEIGHT,
+    BOID_WIDTH,
     MAX_SPEED,
     MAX_ACCELERATION,
     DESIRED_SEPARATION,
@@ -69,7 +70,7 @@ class Flock:
             if distance < NEIGHBOR_DIST:
                 # Separation
                 if distance < DESIRED_SEPARATION:
-                    if distance == 0:
+                    if distance < BOID_WIDTH:
                         separation_force += (
                             (random.choice([-1, 1])),
                             (random.choice([-1, 1])),
