@@ -80,17 +80,17 @@ class Boid:
                 self.vel_x += force_strength * margin / self.x
         if self.x > WIDTH - margin:
             if WIDTH == self.x:
-                self.x = -self.x
+                self.vel_x = -self.vel_x
             else:
                 self.vel_x -= force_strength * margin / (WIDTH - self.x)
         if self.y < margin:
             if self.y == 0:
-                self.y = -self.y
+                self.vel_y = -self.vel_y
             else:
                 self.vel_y += force_strength * margin / self.y
         if self.y > HEIGHT - margin:
             if HEIGHT == self.y:
-                self.y = -self.y
+                self.vel_y = -self.vel_y
             else:
                 self.vel_y -= force_strength * margin / (HEIGHT - self.y)
 
