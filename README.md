@@ -12,7 +12,6 @@ A boid simulation project using Pygame that models the flocking behavior of boid
 
 - Simulates flocking behavior of boids with separation, alignment, and cohesion rules.
 - Two flocks of boids with different colors and sizes.
-- Interactive controls to pause and play the simulation.
 - Dynamic visualization using Pygame.
 
 
@@ -24,7 +23,7 @@ The simulation consists of the following components:
   
 - **Flock Class**: Manages a collection of boids, applies flocking behavior rules (separation, alignment, cohesion), and updates their positions and velocities.
 
-- **Main Script (`main.py`)**: Initializes Pygame, creates two flocks of boids with different colors, and runs the game loop. It handles user input, updates the boids, and renders them to the screen.
+- **Main Script (`main.py`)**: Initializes Pygame, creates two flocks of boids with different colors, and runs the game loop. It updates the boids, and renders them to the screen.
 
 ## Configuration
 
