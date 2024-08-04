@@ -63,32 +63,53 @@ class Flock:
         cohesion_force = np.array([0.0, 0.0])
         count = 0
 
+        boid_velocity = np.array([boid.vel_x, boid.vel_y])
+        boid_speed = np.linalg.norm(boid_velocity)
+
         for other in self.boids:
             if other == boid:
                 continue
             distance = np.sqrt((boid.x - other.x) ** 2 + (boid.y - other.y) ** 2)
             if distance < NEIGHBOR_DIST:
-                # Separation
-                if distance < DESIRED_SEPARATION:
-                    if distance < BOID_WIDTH:
-                        separation_force += (
-                            (random.choice([-1, 1])),
-                            (random.choice([-1, 1])),
-                        )
-                    else:
-                        separation_multiplier = DESIRED_SEPARATION / distance
-                        separation_force += (
-                            (boid.x - other.x) * separation_multiplier,
-                            (boid.y - other.y) * separation_multiplier,
-                        )
 
-                # Alignment
-                alignment_force += np.array([other.vel_x, other.vel_y])
+                # Calculate vector from boid to other boid
+                vector_to_other = np.array([other.x - boid.x, other.y - boid.y])
+                distance_to_other = np.linalg.norm(vector_to_other)
+                vector_to_other_normalized = (
+                    vector_to_other / distance_to_other
+                    if distance_to_other > 0
+                    else vector_to_other
+                )
 
-                # Cohesion
-                cohesion_force += np.array([other.x, other.y])
+                # Calculate angle between boid's velocity and vector_to_other
+                angle = np.arccos(
+                    np.dot(boid_velocity, vector_to_other_normalized)
+                    / (boid_speed * distance_to_other)
+                )
+                angle_degrees = np.degrees(angle)
 
-                count += 1
+                if angle_degrees <= 90:
+                    # Separation
+                    if distance < DESIRED_SEPARATION:
+                        if distance < BOID_WIDTH:
+                            separation_force += (
+                                (random.choice([-1, 1])),
+                                (random.choice([-1, 1])),
+                            )
+                        else:
+                            separation_multiplier = DESIRED_SEPARATION / distance
+                            separation_force += (
+                                (boid.x - other.x) * separation_multiplier,
+                                (boid.y - other.y) * separation_multiplier,
+                            )
+
+                    # Alignment
+                    alignment_force += np.array([other.vel_x, other.vel_y])
+
+                    # Cohesion
+                    cohesion_force += np.array([other.x, other.y])
+
+                    count += 1
 
         if count > 0:
             # Normalize forces
