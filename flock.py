@@ -112,22 +112,21 @@ class Flock:
                     count += 1
 
         if count > 0:
+            rand_force_x = (random.random() - 0.5) * 2 * RANDOMNESS
+            rand_force_y = (random.random() - 0.5) * 2 * RANDOMNESS
+
             # Normalize forces
             separation_force /= count
             alignment_force /= count
             cohesion_force /= count
+            rand_force = np.array([rand_force_x, rand_force_y]) / count
 
             # Apply weights
-            rand_force_x = (random.random() - 0.5) * 2 * RANDOMNESS
-            rand_force_y = (random.random() - 0.5) * 2 * RANDOMNESS
             total_force = (
                 SEPARATION_WEIGHT * separation_force
                 + ALIGNMENT_WEIGHT * alignment_force
-                + COHESION_WEIGHT
-                * (
-                    cohesion_force
-                    - np.array([boid.x + rand_force_x, boid.y + rand_force_y])
-                )
+                + COHESION_WEIGHT * (cohesion_force - np.array([boid.x, boid.y]))
+                + rand_force
             )
 
             # Limit the total force to MAX_ACCELERATION

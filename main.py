@@ -1,7 +1,17 @@
 import pygame
 from boid import Boid
 from flock import Flock
-from variables import BACKGROUND, WIDTH, HEIGHT, FPS, NUM_BOIDS, BOID_COLOR, BOID_COLOR2
+from variables import (
+    BACKGROUND,
+    WIDTH,
+    HEIGHT,
+    FPS,
+    BOID_COLOR,
+    BOID_COLOR2,
+    BOID_COLOR3,
+    BOID_COLOR4,
+    BOID_COLOR5,
+)
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -16,7 +26,7 @@ def main():
 
     The function performs the following tasks:
     - Initializes the game window and clock.
-    - Creates two flocks of boids with different colors and sizes.
+    - Creates flocks of boids with different colors and sizes.
     - Runs the game loop, handling user input to pause/play the simulation and
       updating and drawing the boids.
     - Handles quitting the game when the user closes the window.
@@ -27,8 +37,12 @@ def main():
     count = 0
     update_frequency = 30
 
-    flock = Flock(BOID_COLOR, 100)
-    flock2 = Flock(BOID_COLOR2, 50)
+    colors = [BOID_COLOR, BOID_COLOR2, BOID_COLOR3, BOID_COLOR4]
+    flocks = []
+
+    for color in colors:
+        flock = Flock(color, 30)
+        flocks.append(flock)
 
     while running:
         clock.tick(FPS)
@@ -50,10 +64,9 @@ def main():
                     count = 0
 
         screen.fill(BACKGROUND)
-        flock.update()
-        flock.draw(screen)
-        flock2.update()
-        flock2.draw(screen)
+        for flock in flocks:
+            flock.update()
+            flock.draw(screen)
         pygame.display.update()
 
     pygame.quit()
